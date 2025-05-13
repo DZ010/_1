@@ -16,7 +16,7 @@ exports.getAllPosts=(req,res)=>{
 exports.createPost=(req,res)=>{
     const {post_title}= req.body
 
-    const sql = "insert into Post (PostId, post_title) values(?,?)";
+    const sql = "insert into Post (post_title) values(?)";
     db.query(sql,[post_title],(err)=>{
         if (err) return res.status(500).json({message:"failed to insert"});
         return res.status(200).json({message:"inserted successfully"})
@@ -38,7 +38,7 @@ exports.updatePost =(req,res)=>{
   const {id}= req.params
   const {post_title}= req.body
   sql="update Post set post_title=? where PostId=?";
-  db.query(sql,[id ,post_title],(err,result)=>{
+  db.query(sql,[post_title,id],(err,result)=>{
     if(err) return res.status(500).json({message:"failed to update"})
     return res.status(200).json({message:"updated successfully"})    
   })

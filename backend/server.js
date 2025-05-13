@@ -21,9 +21,9 @@ app.use(session({
 }));
 
 //routes
-app.use('api/auth', require("./routes/userRoutes"))
-app.use('api/post',require("./routes/postRoutes"))
-app.use("api/staff", require("./routes/staffRoutes"))
+app.use('/api/auth', require("./routes/userRoutes"))
+app.use('/api/post',require("./routes/postRoutes"))
+app.use("/api/staff", require("./routes/staffRoutes"))
 
 app.listen(PORT,()=>{
     console.log(`server running on http://localhost:${PORT}`);

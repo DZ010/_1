@@ -13,7 +13,7 @@ exports.getAllStaff=(req,res)=>{
 exports.createStaff=(req,res)=>{
     const {post,FirstName,LastName,Gender,DateOfBirth,Email,Phone,Department,HireDate,Salary,Status,Address}=req.body
 
-    const sql = "insert into Staff (post,FirstName,LastName,Gender,DateOfBirth,Email,Phone,Department,HireDate,Salary,Status,Address) values(?,?,?,?,?,?,?,?,?,?,?,?,?)"
+    const sql = "insert into Staff (post,FirstName,LastName,Gender,DateOfBirth,Email,Phone,Department,HireDate,Salary,Status,Address) values(?,?,?,?,?,?,?,?,?,?,?,?)"
     db.query(sql,[post,FirstName,LastName,Gender,DateOfBirth,Email,Phone,Department,HireDate,Salary,Status,Address],(err,result)=>{
         if(err) return res.status(500).json({message:"failed to insert"})
         res.status(200).json({message:"inserted successfully"})    
