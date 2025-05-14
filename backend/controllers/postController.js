@@ -1,45 +1,65 @@
-const db= require("../db/connect")
-
+import express from "express"
+import db from "../db/connect.js"
+const post = express.Router();
 
 //get all post
 
-exports.getAllPosts=(req,res)=>{
+post.get("/getAllPosts",async(req,res)=>{
+    try{
     const sql = "select * from Post";
+    const [result] = await db.query(sql)
+    if(result.affectedRows==0){
+        return res.status(400).json({message:"No psot inserted "})
+    }
+    return res.status(200).json({message:"all posts" ,data:result})
+    }
+    catch(err){
+        console.log(err)
+        return res.status(500).json({message:"error",err})
+    }
+});
 
-    db.query(sql, (err,result)=>{
-        if(err) return res.status(500).json({message:"failed to fetch"});
-
-       res.status(200).json({message:"data", data:result})
-    })
-}
-
-exports.createPost=(req,res)=>{
+post.post("/createPost",async(req,res)=>{
+    try{
     const {post_title}= req.body
-
     const sql = "insert into Post (post_title) values(?)";
-    db.query(sql,[post_title],(err)=>{
-        if (err) return res.status(500).json({message:"failed to insert"});
-        return res.status(200).json({message:"inserted successfully"})
-    })
-}
+    await db.query(sql,[post_title])
+    return res.status(200).json({message:"inserted successfully"})
+   
+    }
+    catch(err){
+        return res.status(500).json({message:"failde to insert"})
+    }
+})
 
-exports.deletePost= (req,res)=>{
+post.delete("/deletePost/:id", async(req,res)=>{
+    try{
     const {id}= req.params
-
     const sql = "delete from Post where PostId=?";
+    await db.query(sql,[id])
+    return res.status(200).json({message:"deleted successfully"})
 
-    db.query(sql,[id],(err)=>{
-        if(err) return res.status(500).json({message:"failde to delete the psot"})
-        return res.status(200).json({message:"post have been deleted "})    
-    })
-}
+    }
+    catch(err){
+        return res.status(500).json({message:"server error "})
+    }
+})
 
-exports.updatePost =(req,res)=>{
+post.put("/updatePost/:id" ,async(req,res)=>{
+  try{
   const {id}= req.params
   const {post_title}= req.body
-  sql="update Post set post_title=? where PostId=?";
-  db.query(sql,[post_title,id],(err,result)=>{
-    if(err) return res.status(500).json({message:"failed to update"})
-    return res.status(200).json({message:"updated successfully"})    
-  })
-}
+  const sql="update Post set post_title=? where PostId=?";
+  const [result] = await db.query(sql,[post_title,id])
+  if (result.affectedRows==0){
+    return res.status(400).json({message:"the post not found"})
+  }
+  return res.status(200).json({message:"updated ",data:result})
+  
+  }
+  catch(err){
+    return res.status(500).json({message:"server error"})
+  }
+})
+
+export default post;

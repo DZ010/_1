@@ -1,10 +1,12 @@
-const express = require("express");
-const session = require("express-session");
-const cors= require("cors");
+import express  from "express";
+import session  from "express-session";
+import cors from "cors";
+import db from "./db/connect.js"
+import user from "./controllers/userController.js"
+import post from "./controllers/postController.js"
 const app= express();
 const PORT = 2121;
 
-require("./db/connect")
 
 app.use(cors({
   origin: "http://localhost:5173",
@@ -21,10 +23,8 @@ app.use(session({
 }));
 
 //routes
-app.use('/api/auth', require("./routes/userRoutes"))
-app.use('/api/post',require("./routes/postRoutes"))
-app.use("/api/staff", require("./routes/staffRoutes"))
-
+app.use("/api/auth", user)
+app.use("/api/post",post)
 app.listen(PORT,()=>{
     console.log(`server running on http://localhost:${PORT}`);
 })
