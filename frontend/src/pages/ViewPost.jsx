@@ -10,14 +10,24 @@ const ViewPost = () => {
     axios.get("http://localhost:2121/api/post/getAllPosts")
     .then(res=>{
       console.log(res.data)
-      setPosts(Object.values(res.data))
+      setPosts(res.data.data)
     })
     .catch(err=>{
      alert("failed to festch post",err)
     })
   },[])
  
-  
+  const handeDelete=(id)=>{
+    axios.delete(`http://localhost:2121/api/post/deletePost/${id}`)
+    .then(res=>{
+      alert("post deleted successfully")
+      setPosts(posts.filter(post=> post.PostId!==id))
+    })
+    .catch(err=>{
+      console.error(err)
+      alert("failed to delete")
+    })
+  }
   return (
     <>
       <Appbar />
@@ -32,9 +42,9 @@ const ViewPost = () => {
             </tr>
           </thead>
           <tbody>
-            {posts.map((post, index) => (
-              <tr key={post.PostId ||index}>
-                <td className="border px-2 py-1">{index + 1}</td>
+            {posts.map((post , index) => (
+              <tr key={post.PostId}>
+                <td className="border px-2 py-1">{index+1}</td>
                 <td className="border px-2 py-1">{post.post_title}</td>
                 <td className="border px-2 py-1">
                   <button
@@ -44,19 +54,13 @@ const ViewPost = () => {
                   </button>
                   <button
                     className="bg-red-500 text-white px-2 py-1 rounded"
+                    onClick={()=>handeDelete(post.PostId)}
                   >
                     Delete
                   </button>
                 </td>
               </tr>
             ))}
-            {posts.length === 0 && (
-              <tr>
-                <td colSpan="3" className="border px-2 py-2 text-gray-500">
-                  No posts available.
-                </td>
-              </tr>
-            )}
           </tbody>
         </table>
       </div>

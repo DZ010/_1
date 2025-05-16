@@ -10,20 +10,18 @@ staff.get("/getAllStaff", async (req,res)=>{
     catch(err){
 
     }
-
 });
 
-exports.createStaff=(req,res)=>{
-    const {post,FirstName,LastName,Gender,DateOfBirth,Email,Phone,Department,HireDate,Salary,Status,Address}=req.body
+staff.post("/createStaff",(req,res)=>{
+    const {PostId,FirstName,LastName,Gender,DateOfBirth,Email,Phone,Department,HireDate,Salary,Status,Address}=req.body
 
-    const sql = "insert into Staff (post,FirstName,LastName,Gender,DateOfBirth,Email,Phone,Department,HireDate,Salary,Status,Address) values(?,?,?,?,?,?,?,?,?,?,?,?)"
-    db.query(sql,[post,FirstName,LastName,Gender,DateOfBirth,Email,Phone,Department,HireDate,Salary,Status,Address],(err,result)=>{
+    const sql = "insert into Staff (PostId,FirstName,LastName,Gender,DateOfBirth,Email,Phone,Department,HireDate,Salary,Status,Address) values(?,?,?,?,?,?,?,?,?,?,?,?)"
+    db.query(sql,[PostId,FirstName,LastName,Gender,DateOfBirth,Email,Phone,Department,HireDate,Salary,Status,Address],(err,result)=>{
         if(err) return res.status(500).json({message:"failed to insert"})
         res.status(200).json({message:"inserted successfully"})    
     })
-}
-
-exports.updateStaff= (req,res)=>{
+})
+staff.put("/updateStaff", (req,res)=>{
     const{id}= req.params
     const {post,FirstName,LastName,Gender,DateOfBirth,Email,Phone,Department,HireDate,Salary,Status,Address}=req.body
     
@@ -33,9 +31,9 @@ exports.updateStaff= (req,res)=>{
         return res.status(200).json({message:"updated successfully"})    
     })
 
-}
+})
 
-exports.deleteStaff=(req,res)=>{
+staff.delete("/deleteStaff",(req,res)=>{
     const {id}= req.params
     const sql= "delete from Staff where employeeId=?"
 
@@ -43,4 +41,6 @@ exports.deleteStaff=(req,res)=>{
         if(err) return res.status(500).json({message:"failde to delete"});
         return res.status(200).json({message:"delete successfully"})
     })
-}
+})
+
+export default staff;
