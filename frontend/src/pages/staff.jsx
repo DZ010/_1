@@ -62,16 +62,16 @@ const Staff = () => {
 
     
 
-        <input name="FirstName" placeholder="First Name" onChange={handleChange} className="border p-2 w-full" />
-        <input name="LastName" placeholder="Last Name" onChange={handleChange} className="border p-2 w-full" />
-        <input name="Gender" placeholder="Gender" onChange={handleChange} className="border p-2 w-full" />
+        <input type="text" name="FirstName" placeholder="First Name" onChange={handleChange} className="border p-2 w-full" />
+        <input type="text" name="LastName" placeholder="Last Name" onChange={handleChange} className="border p-2 w-full" />
+        <input type="text" name="Gender" placeholder="Gender" onChange={handleChange} className="border p-2 w-full" />
         <input type='date' name="DateOfBirth" placeholder="YYYY-MM-DD" onChange={handleChange} className="border p-2 w-full" />
-        <input name="Email" placeholder="Email" onChange={handleChange} className="border p-2 w-full" />
-        <input name="Phone" placeholder="Phone" onChange={handleChange} className="border p-2 w-full" />
-        <input name="Department" placeholder="Department" onChange={handleChange} className="border p-2 w-full" />
+        <input type="text" name="Email" placeholder="Email" onChange={handleChange} className="border p-2 w-full" />
+        <input type="text" name="Phone" placeholder="Phone" onChange={handleChange} className="border p-2 w-full" />
+        <input type="text" name="Department" placeholder="Department" onChange={handleChange} className="border p-2 w-full" />
         <input type='date' name="HireDate" placeholder="Hire Date YYYY-MM-DD" onChange={handleChange} className="border p-2 w-full" />
-        <input name="Salary" placeholder="Salary" onChange={handleChange} className="border p-2 w-full" />
-        <input name="Status" placeholder="Status" onChange={handleChange} className="border p-2 w-full" />
+        <input type="text" name="Salary" placeholder="Salary" onChange={handleChange} className="border p-2 w-full" />
+        <input type="text" name="Status" placeholder="Status" onChange={handleChange} className="border p-2 w-full" />
         <textarea name="Address" placeholder="Address" onChange={handleChange} className="border p-2 w-full" />
 
         <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Save Staff</button>
