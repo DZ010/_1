@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2025 at 10:30 AM
+-- Generation Time: May 18, 2025 at 10:35 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,14 +32,6 @@ CREATE TABLE `post` (
   `post_title` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `post`
---
-
-INSERT INTO `post` (`PostId`, `post_title`) VALUES
-(1, 'HR'),
-(2, 'aaa');
-
 -- --------------------------------------------------------
 
 --
@@ -62,13 +54,6 @@ CREATE TABLE `staff` (
   `Address` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `staff`
---
-
-INSERT INTO `staff` (`employeeId`, `PostId`, `Firstname`, `Lastname`, `Gender`, `DateOfBirth`, `Email`, `Phone`, `Department`, `HireDate`, `Salary`, `Status`, `Address`) VALUES
-(23, 1, 'Niyonshuti', 'Agape', 'male', '2025-05-13', 'agape@gmail', '0798573310', 'HR', '2025-05-13', 30000.00, 'active', 'Gatenga\nmuhima');
-
 -- --------------------------------------------------------
 
 --
@@ -81,13 +66,6 @@ CREATE TABLE `user` (
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`userId`, `employeeId`, `username`, `password`) VALUES
-(1, 23, 'Reply', '$2b$10$IQGP0XxrWOgOEbTmkqRyeuUWvnzGzcWrfw5o2ixJZ7pXuVHro.Zn2');
 
 --
 -- Indexes for dumped tables
