@@ -9,8 +9,8 @@ const Appbar = () => {
             <Link to="/home"  className='hover:underline'>Home</Link>
             <Link to="/post" className='hover:underline'>Post</Link>
             <Link to="/staff" className='hover:underline'>Staff</Link>
-            <Link to="/users" className='hover:underline'>users</Link>
-            <Link to="/logout" className='hover:underline'>Logout</Link>
+            <Link to="/Users" className='hover:underline'>users</Link>
+            <Link to="/" className='hover:underline'>Logout</Link>
         </nav>
 
     </div>

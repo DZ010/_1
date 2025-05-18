@@ -10,8 +10,10 @@ const PORT = 2121;
 
 
 app.use(cors({
-  origin: "*",
-  credentials: true
+  origin: "http://localhost:5173",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json());
@@ -20,7 +22,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(session({
   secret: "ahahha",
   resave: false,
-  saveUninitialized: false
+  saveUninitialized:true
 }));
 
 //routes
@@ -30,4 +32,3 @@ app.use("/api/staff", staff)
 app.listen(PORT,()=>{
     console.log(`server running on http://localhost:${PORT}`);
 })
-

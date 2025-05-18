@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Appbar from '../componets/Appbar';
 import Footer from '../componets/footer';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Staff = () => {
   const [posts, setPosts] = useState([]);
@@ -19,7 +20,7 @@ const Staff = () => {
     Status: '',
     Address: ''
   });
-
+  const navigate= useNavigate()
   useEffect(() => {
     axios.get("http://localhost:2121/api/post/getAllPosts")
       .then(res => setPosts(res.data.data))
@@ -30,26 +31,37 @@ const Staff = () => {
     setForm({...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    axios.post("http://localhost:2121/api/staff/createStaff", form)
-      .then(res => {
-        alert("Staff added successfully!");
-      })
-      .catch(err => {
-        alert("Error saving staff.");
-        console.log(err);
-      });
+try{
+    const response= await axios.post("http://localhost:2121/api/staff/createStaff",form)
+    if(response.status==200){
+      alert("added successfully")
+     navigate("/viewStaff")
+
+
+    }
+    else{
+      alert("failed to insert")
+    }
+} 
+catch(err){
+    alert("error happened")
+    console.error(err)
+}   
+   
   };
+
 
   return (
     <div>
       <Appbar />
       <form onSubmit={handleSubmit} className="p-6 max-w-xl mx-auto space-y-4">
-        <h2 className="text-2xl font-bold text-center">Add New Staff</h2>
-
+ <div className="flex justify-end">
+    <Link to="/viewStaff" className="text-blue-600 hover:underline">View Staff</Link>
+  </div>       
+   <h2 className="text-2xl font-bold text-center">Add New Staff</h2>
          <div>
-  <label className="block">Post:</label>
   <select name="PostId" value={form.PostId} onChange={handleChange} className="border p-2 w-full">
     <option value="">Select a post</option>
     {posts.map(post => (

@@ -12,7 +12,6 @@ db.getConnection()
     console.log("connected successfully")
 })
 .catch((err)=>{
-    console.log("failde to ceonnect")
+    console.log("failde to connect ",err)
 })
-
 export default db

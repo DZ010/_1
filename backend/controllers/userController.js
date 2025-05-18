@@ -1,30 +1,34 @@
 import bcrypt from "bcrypt";
 import db from "../db/connect.js";
 import express from "express";
-import { promisify } from "util";
 
 const user = express.Router();
-const query = promisify(db.query).bind(db); // Make db.query use async/await
 
-// User login
+
+
 user.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    const users = await query("SELECT * FROM User WHERE username = ?", [username]);
+    const [users] = await db.query("SELECT * FROM User WHERE username = ?", [username]);
 
     if (users.length === 0) {
       return res.status(401).json({ message: "User not found. Login failed" });
     }
 
     const user = users[0];
+
+    if (!user.password) {
+      return res.status(500).json({ message: "User has no password stored." });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res.status(401).json({ message: "Login failed" });
     }
 
-    const hrStaff = await query(`
+    const [hrStaff] = await db.query(`
       SELECT p.post_title 
       FROM Staff s
       JOIN Post p ON s.PostId = p.PostId 
@@ -51,6 +55,7 @@ user.post("/login", async (req, res) => {
   }
 });
 
+
 // Logout
 user.post("/logout", (req, res) => {
   req.session.destroy(err => {
@@ -65,7 +70,7 @@ user.post("/register", async (req, res) => {
     const { employeeId, username, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await query("INSERT INTO User(employeeId, username, password) VALUES (?, ?, ?)", 
+    await db.query("INSERT INTO User(employeeId, username, password) VALUES (?, ?, ?)", 
       [employeeId, username, hashedPassword]);
 
     return res.status(200).json({ message: "User created successfully" });
@@ -76,21 +81,21 @@ user.post("/register", async (req, res) => {
   }
 });
 
-// Profile
-user.get("/profile", async (req, res) => {
-  if (!req.session.user) {
-    return res.json({ message: "User not logged in" });
-  }
+user.get("/getAllUsers",async(req,res)=>{
+ try{
+     const sql= "SELECT username,Staff.FirstName, Staff.LastName from User INNER JOIN Staff ON User.employeeId=Staff.employeeId"
+     const [result]= await db.query(sql)
+     if(result.length==0){
+      return res.status(400).json({message:"no users inserted"})
 
-  try {
-    const employeeId = req.session.user.employeeId;
-    const result = await query("SELECT * FROM Staff WHERE employeeId = ?", [employeeId]);
-
-    return res.json(result[0]);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Failed to fetch user" });
-  }
-});
+     }
+     return res.status(200).json({message:"all users",data:result})
+     
+ }
+ catch(err){
+  console.log(err)
+  return res.status(500).json("server error")
+ }
+})
 
 export default user;
