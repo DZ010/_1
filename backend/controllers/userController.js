@@ -98,4 +98,12 @@ user.get("/getAllUsers",async(req,res)=>{
  }
 })
 
+user.get("/check", (req, res) => {
+  if (req.session.user) {
+    return res.status(200).json({ loggedIn: true, user: req.session.user });
+  } else {
+    return res.status(401).json({ loggedIn: false, message: "Not logged in" });
+  }
+});
+
 export default user;

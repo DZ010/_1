@@ -22,7 +22,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(session({
   secret: "ahahha",
   resave: false,
-  saveUninitialized:true
+  saveUninitialized:false
 }));
 
 //routes
